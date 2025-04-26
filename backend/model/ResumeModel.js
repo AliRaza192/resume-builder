@@ -17,7 +17,6 @@ const ResumeSchema = new mongoose.Schema(
     template: {
       theme: String,
       colorPalette: [String],
-      u,
     },
     profileInfo: {
       profilePreviewUrl: String,
@@ -45,7 +44,7 @@ const ResumeSchema = new mongoose.Schema(
     education: [
       {
         degree: String,
-        institutionName: String,
+        institution: String,
         startDate: Date,
         endDate: Date,
       },
