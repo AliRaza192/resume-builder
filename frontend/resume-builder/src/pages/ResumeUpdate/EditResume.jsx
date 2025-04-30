@@ -550,7 +550,7 @@ const EditResume = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-          {/* <div className="bg-white rounded-lg border border-purple-100 overflow-hidden">
+          <div className="bg-white rounded-lg border border-purple-100 overflow-hidden">
             <StepProgress progress={0} />
 
             {renderForm()}
@@ -600,7 +600,7 @@ const EditResume = () => {
                 </button>
               </div>
             </div>
-          </div> */}
+          </div>
 
           <div ref={resumeRef} className="h-[100vh]">
             {/* Resume Template */}
