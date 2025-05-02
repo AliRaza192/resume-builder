@@ -27,7 +27,9 @@ const LandingPage = () => {
       <div className="container mx-auto px-4 py-6">
         {/* Header */}
         <header className="flex justify-between items-center mb-16">
-          <div className="text-xl font-bold">Resume Builder</div>
+          <div className="text-3xl font-bold text-transparent bg-clip-text bg-[radial-gradient(circle,_#7182ff_0%,_#3cff52_100%)] bg-[length:200%_200%] animate-text-shine">
+            CVision
+          </div>
           {user ? (
             <ProfileInfoCard />
           ) : (
@@ -104,7 +106,15 @@ const LandingPage = () => {
 
       {/*  */}
       <div className="text-sm bg-gray-50 text-secondary text-center p-5 mt-5">
-        Made With ❤️ ... Ali Raza Qasim
+        © {new Date().getFullYear()} Made with ❤️ by{" "}
+        <a
+          href="https://github.com/AliRaza192"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="underline hover:text-purple-600 transition"
+        >
+          Ali Raza Qasim
+        </a>
       </div>
 
       {/*  */}
