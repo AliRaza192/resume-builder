@@ -30,7 +30,7 @@ const Title = ({ text, color }) => {
     </div>
   );
 };
-const TemplateOne = ({ containerWidth, resumeData, colorPalette }) => {
+const TemplateThree = ({ containerWidth, resumeData, colorPalette }) => {
   const themeColors = colorPalette?.length > 0 ? colorPalette : DEFAULT_THEME;
 
   const resumeRef = useRef(null);
@@ -54,62 +54,67 @@ const TemplateOne = ({ containerWidth, resumeData, colorPalette }) => {
         height: "auto",
       }}
     >
-      <div className="grid grid-cols-12 gap-8">
+      <div className="flex items-start gap-5 px-2 mb-5">
         <div
-          className="col-span-4 py-10"
-          style={{ backgroundColor: themeColors[0] }}
+          className="w-[100px] h-[100px] max-w-[105px] max-h-[105px] rounded-2xl flex items-center justify-center"
+          style={{ backgroundColor: themeColors[1] }}
         >
-          <div className="flex flex-col items-center px-2">
+          {resumeData.profileInfo.profilePreviewUrl ? (
+            <img
+              className="w-[90px] h-[90px] rounded-2xl"
+              src={resumeData.profileInfo.profilePreviewUrl}
+            />
+          ) : (
             <div
-              className="w-[100px] h-[100px] max-w-[110px] max-h-[110px] rounded-full flex items-center justify-center"
-              style={{ backgroundColor: themeColors[0] }}
+              className="w-[90px] h-[90px] flex items-center justify-center text-5xl rounded-full "
+              style={{ color: themeColors[4] }}
             >
-              {resumeData.profileInfo.profilePreviewUrl ? (
-                <img
-                  src={resumeData.profileInfo.profilePreviewUrl}
-                  style={{ backgroundColor: themeColors[1] }}
-                  className="w-[90px] h-[90px] rounded-full"
-                  alt=""
-                />
-              ) : (
-                <div
-                  className="w-[90px] h-[90px] flex items-center justify-center text-5xl rounded-full"
-                  style={{ color: themeColors[4] }}
-                >
-                  <LuUser />
-                </div>
-              )}
+              <LuUser />
             </div>
+          )}
+        </div>
 
-            <h2 className="text-xl font-bold mt-3">
-              {resumeData.profileInfo.fullName}
-            </h2>
+        <div>
+          <div className="grid grid-cols-12 items-center">
+            <div className="col-span-8">
+              <h2 className="text-2xl font-bold">
+                {resumeData.profileInfo.fullName}
+              </h2>
+              <p className="text-[15px] font-semibold mb-2">
+                {resumeData.profileInfo.designation}
+              </p>
 
-            <p className="text-sm text-center">
-              {resumeData.profileInfo.designation}
-            </p>
-          </div>
-
-          <div className="my-6 mx-6">
-            <div className="flex flex-col gap-4">
               <ContactInfo
                 icon={<LuMapPinHouse />}
                 iconBG={themeColors[2]}
                 value={resumeData.contactInfo.location}
               />
 
-              <ContactInfo
-                icon={<LuMail />}
-                iconBG={themeColors[2]}
-                value={resumeData.contactInfo.email}
-              />
+              <div className="col-span-4 flex flex-col gap-5 mt-2">
+                <ContactInfo
+                  icon={<LuMail />}
+                  iconBG={themeColors[2]}
+                  value={resumeData.contactInfo.email}
+                />
 
-              <ContactInfo
-                icon={<LuPhone />}
-                iconBG={themeColors[2]}
-                value={resumeData.contactInfo.phone}
-              />
+                <ContactInfo
+                  icon={<LuPhone />}
+                  iconBG={themeColors[2]}
+                  value={resumeData.contactInfo.phone}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
+      <div className="grid grid-cols-12 gap-8">
+        <div
+          className="col-span-4 py-10"
+          style={{ backgroundColor: themeColors[0] }}
+        >
+          <div className="my-6 mx-6">
+            <div className="flex flex-col gap-4">
               {resumeData.contactInfo.linkedin && (
                 <ContactInfo
                   icon={<RiLinkedinLine />}
@@ -249,4 +254,4 @@ const TemplateOne = ({ containerWidth, resumeData, colorPalette }) => {
   );
 };
 
-export default TemplateOne;
+export default TemplateThree;

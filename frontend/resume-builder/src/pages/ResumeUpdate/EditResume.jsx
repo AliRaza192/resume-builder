@@ -24,6 +24,13 @@ import ProjectInfoForm from "./Forms/ProjectInfoForm";
 import CertificationsInfoForm from "./Forms/CertificationsInfoForm";
 import AdditionalInfoForm from "./Forms/AdditionalInfoForm";
 import RenderResume from "../../components/ResumeTemplates/RenderResume";
+import {
+  captureElementAsImage,
+  dataURLtoFile,
+  fixTailwindColors,
+} from "../../utils/helper";
+import ThemeSelector from "./ThemeSelector";
+import Model from "../../components/Model";
 
 const EditResume = () => {
   const { resumeId } = useParams();
@@ -483,9 +490,73 @@ const EditResume = () => {
     }
   };
 
-  const uploadResumeImages = async () => {};
+  const uploadResumeImages = async () => {
+    try {
+      setIsLoading(true);
 
-  const uploadResumeDetails = async (thumbnailLink, profilePreviewUrl) => {};
+      fixTailwindColors(resumeRef.current);
+
+      const imageDataUrl = await captureElementAsImage(resumeRef.current);
+
+      const thumbnailFile = dataURLtoFile(
+        imageDataUrl,
+        `resume-${resumeId}.png`
+      );
+
+      const profileImageFile = resumeData?.profileInfo?.profileImg || null;
+
+      const formData = new FormData();
+
+      if (profileImageFile) formData.append("profileImage", profileImageFile);
+      if (thumbnailFile) formData.append("thumbnail", thumbnailFile);
+
+      const uploadResponse = await axiosInstance.put(
+        API_PATHS.RESUME.UPLOAD_IMAGES(resumeId),
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      const { thumbnailLink, profilePreviewUrl } = uploadResponse.data;
+
+      console.log("RESUME_DATA___", resumeData);
+
+      await uploadResumeDetails(thumbnailLink, profilePreviewUrl);
+
+      toast.success("Resume updated successfully");
+      navigate("/dashboard");
+    } catch (error) {
+      console.error("Error uploading resume images:", error);
+      toast.error("Failed to upload images");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const uploadResumeDetails = async (thumbnailLink, profilePreviewUrl) => {
+    try {
+      setIsLoading(true);
+
+      const response = await axiosInstance.put(
+        API_PATHS.RESUME.UPDATE(resumeId),
+        {
+          ...resumeData,
+          thumbnailLink: thumbnailLink || "",
+          profileInfo: {
+            ...resumeData.profileInfo,
+            profilePreviewUrl: profilePreviewUrl || "",
+          },
+        }
+      );
+    } catch (err) {
+      console.error("Error capturing image:", err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const reactToPrintFn = useReactToPrint({ contentRef: resumeDownloadRef });
 
@@ -613,6 +684,26 @@ const EditResume = () => {
           </div>
         </div>
       </div>
+
+      <Model
+        isOpen={openThemeSelector}
+        onClose={() => setOpenThemeSelector(false)}
+        title="Change Theme"
+      >
+        <div className="w-[90vw] h-[80vh]">
+          <ThemeSelector
+            selectedTheme={resumeData?.template}
+            setSelectedTheme={(value) => {
+              setResumeData((prevState) => ({
+                ...prevState,
+                template: value || prevState.template,
+              }));
+            }}
+            resumeData={null}
+            onClose={() => setOpenThemeSelector(false)}
+          />
+        </div>
+      </Model>
     </DashboradLayout>
   );
 };
