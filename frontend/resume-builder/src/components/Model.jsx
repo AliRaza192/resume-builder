@@ -23,10 +23,7 @@ const Model = ({
             <h3 className="md:text-lg font-medium text-gray-900">{title}</h3>
 
             {showActionBtn && (
-              <button
-                className="btn-small-light mr-12"
-                onClick={() => onActionClick}
-              >
+              <button className="btn-small-light mr-12" onClick={onActionClick}>
                 {actionBtnIcon}
                 {actionBtnText}
               </button>

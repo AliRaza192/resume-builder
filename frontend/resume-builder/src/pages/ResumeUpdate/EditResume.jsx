@@ -558,6 +558,22 @@ const EditResume = () => {
     }
   };
 
+  const handleDeleteResume = async () => {
+    try {
+      setIsLoading(true);
+      const response = await axiosInstance.delete(
+        API_PATHS.RESUME.DELETE(resumeId)
+      );
+      toast.success("Resume deleted successfully");
+      navigate("/dashboard");
+    } catch (error) {
+      console.error("Error deleting resume:", error);
+      toast.error("Failed to delete resume");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const reactToPrintFn = useReactToPrint({ contentRef: resumeDownloadRef });
 
   const updateBaseWidth = () => {
@@ -602,10 +618,7 @@ const EditResume = () => {
               <span className="hidden md:block">Change Theme</span>
             </button>
 
-            <button
-              className="btn-small-light"
-              // onClick={handleDeleteResume}
-            >
+            <button className="btn-small-light" onClick={handleDeleteResume}>
               <LuTrash2 className="text-[16px]" />
               <span className="hidden md:block">Delete</span>
             </button>
@@ -701,6 +714,24 @@ const EditResume = () => {
             }}
             resumeData={null}
             onClose={() => setOpenThemeSelector(false)}
+          />
+        </div>
+      </Model>
+
+      <Model
+        isOpen={openPreviewModel}
+        onClose={() => setOpenPreviewModel(false)}
+        title={resumeData.title}
+        showActionBtn
+        actionBtnText="Download"
+        actionBtnIcon={<LuDownload className="text-[16px]" />}
+        onActionClick={() => reactToPrintFn()}
+      >
+        <div ref={resumeDownloadRef} className="w-[98vw] h-[90vh]">
+          <RenderResume
+            templateId={resumeData?.template?.theme || ""}
+            resumeData={resumeData}
+            colorPalette={resumeData?.template?.colorPalette || []}
           />
         </div>
       </Model>

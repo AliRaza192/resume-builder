@@ -61,7 +61,7 @@ const TemplateThree = ({ containerWidth, resumeData, colorPalette }) => {
         >
           {resumeData.profileInfo.profilePreviewUrl ? (
             <img
-              className="w-[90px] h-[90px] rounded-2xl"
+              className="w-[90px] h-[90px] rounded-full"
               src={resumeData.profileInfo.profilePreviewUrl}
             />
           ) : (
