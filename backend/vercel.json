@@ -13,7 +13,8 @@
       },
       {
         "src": "/static/(.*)",
-        "dest": "uploads/$1"
+        "dest": "/",
+        "methods": ["GET", "POST", "DELETE", "PUT"]
       }
     ]
   }
